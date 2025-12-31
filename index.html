@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Honeybee Cafe Secret Overtime Form</title>
+    <style>
+        /* Mobile-first responsive styles */
+        @media (max-width: 768px) {
+            #passwordGate {
+                margin: 20px auto;
+                padding: 20px 15px;
+                max-width: 95%;
+            }
+            
+            #formContainer > div {
+                margin: 15px auto;
+                padding: 20px 15px;
+                max-width: 95%;
+            }
+            
+            h1, h2, h3 {
+                font-size: 1.2em !important;
+                margin: 8px 0 !important;
+            }
+            
+            /* Mobile-friendly input fields */
+            input, select, textarea {
+                font-size: 16px !important; /* Prevents iOS zoom on focus */
+                padding: 12px !important;
+            }
+            
+            /* Date fields - stack vertically on mobile */
+            .date-container {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 5px !important;
+            }
+            
+            .date-container select {
+                flex: 1 !important;
+                min-width: 30% !important;
+                margin-bottom: 8px;
+            }
+            
+            /* IC fields - compact layout */
+            .ic-container {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 5px !important;
+                align-items: center;
+            }
+            
+            .ic-container input {
+                flex: 1 !important;
+                min-width: 0 !important;
+                text-align: center;
+            }
+            
+            .ic-separator {
+                font-weight: bold;
+                color: #666;
+                padding: 0 2px;
+            }
+            
+            /* Time fields - stack on mobile */
+            .time-container {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 5px !important;
+                align-items: center;
+            }
+            
+            .time-container select {
+                flex: 1 !important;
+                min-width: 0 !important;
+            }
+            
+            /* OT hours/minutes - better mobile layout */
+            .ot-container {
+                display: flex !important;
+                gap: 10px !important;
+                flex-wrap: wrap;
+            }
+            
+            .ot-container select {
+                flex: 1 !important;
+                min-width: 120px;
+            }
+            
+            /* Terms & Conditions smaller text on mobile */
+            .terms-box {
+                font-size: 13px !important;
+                padding: 12px !important;
+            }
+            
+            /* Submit button full width on mobile */
+            button[type="submit"] {
+                width: 100% !important;
+            }
+            
+            /* Password input full width */
+            #passwordInput {
+                max-width: 100% !important;
+            }
+            
+            /* Form spacing */
+            #overtimeForm {
+                gap: 15px !important;
+            }
+            
+            /* Labels */
+            label {
+                display: block !important;
+                margin-bottom: 8px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            /* Extra small devices */
+            #passwordGate, #formContainer > div {
+                padding: 15px 10px;
+                max-width: 98%;
+            }
+            
+            h1 {
+                font-size: 1.1em !important;
+            }
+            
+            h2 {
+                font-size: 1em !important;
+            }
+            
+            /* Date fields stack vertically */
+            .date-container select {
+                min-width: 100% !important;
+                margin-bottom: 5px;
+            }
+            
+            /* IC fields stack on very small screens */
+            .ic-container {
+                flex-wrap: wrap !important;
+            }
+            
+            .ic-container input {
+                min-width: 100% !important;
+                margin-bottom: 5px;
+            }
+            
+            .ic-separator {
+                display: none; /* Hide separators on very small screens */
+            }
+            
+            /* Time fields stack */
+            .time-container {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+            
+            .time-container select {
+                width: 100% !important;
+                margin-bottom: 5px;
+            }
+            
+            /* OT container stack */
+            .ot-container {
+                flex-direction: column !important;
+            }
+            
+            .ot-container select {
+                width: 100% !important;
+                margin-bottom: 8px;
+            }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 769px) {
+            /* Date fields inline */
+            .date-container {
+                display: flex !important;
+                gap: 10px !important;
+            }
+            
+            .date-container select {
+                flex: 1 !important;
+            }
+            
+            /* IC fields inline */
+            .ic-container {
+                display: flex !important;
+                gap: 10px !important;
+                align-items: center;
+            }
+            
+            .ic-container input {
+                flex: 1 !important;
+            }
+            
+            /* Time fields inline */
+            .time-container {
+                display: flex !important;
+                gap: 5px !important;
+                align-items: center;
+            }
+        }
+        
+        /* Prevent horizontal scrolling */
+        body {
+            max-width: 100vw;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Improve touch targets */
+        button, input[type="checkbox"] {
+            min-height: 44px; /* Minimum touch target size */
+        }
+        
+        /* Better input styling */
+        input[type="text"], input[type="email"], select, textarea {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        
+        /* Auto-resize textarea */
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        /* Form spacing */
+        form > * {
+            margin-bottom: 15px;
+        }
+        
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        
+        /* Logo styling */
+        .logo-container img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div id="passwordGate" 
+     style="max-width:400px;margin:60px auto;padding:30px;background:#f9f9f9;
+            border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);
+            text-align:center;font-family:Arial,sans-serif;">
+  
+  <h1 style="margin-bottom:10px;color:#222;font-size:22px;font-weight:700;">
+   ⏱️ Secret Overtime Form
+  </h1>
+  <h2 style="margin-bottom:20px;color:#333;font-size:22px;font-weight:600;">
+    🔒 Secure Access
+  </h2>
+  <p style="margin-bottom:20px;color:#555;font-size:15px;">
+    Please enter the password to access this form
+  </p>
+
+  <input 
+    type="password" 
+    id="passwordInput" 
+    placeholder="Enter Password"
+    inputmode="numeric" 
+    pattern="[0-9]*" 
+    oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+    style="padding:12px 14px;font-size:16px;width:100%;max-width:260px;
+           border:1px solid #ccc;border-radius:8px;outline:none;
+           transition:0.3s;"
+    onfocus="this.style.borderColor='#4a90e2';"
+    onblur="this.style.borderColor='#ccc';"
+  />
+
+  <br><br>
+
+  <button onclick="checkPassword()" 
+          style="padding:12px 20px;font-size:16px;background:#4a90e2;
+                 color:#fff;border:none;border-radius:8px;cursor:pointer;
+                 transition:0.3s;min-height:44px;">
+    Submit
+  </button>
+  <p id="passwordError" 
+   style="color:#d93025;display:none;margin-top:15px;font-size:14px;line-height:1.4;">
+   ❌ Incorrect password, Please contact your Admin.
+</p>
+</div>
+
+<!-- Hidden Form (only shows after password) -->
+<div id="formContainer" style="display:none;">
+
+  <!-- Wrapper -->
+  <div style="max-width:800px;margin:30px auto;padding:30px;background:#ffe6de;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);font-family:Arial,sans-serif;">
+
+    <!-- Logo Banner -->
+    <div class="logo-container">
+      <img src="https://i.imgur.com/7nlLfrw.jpeg" alt="Logo">
+    </div>
+
+    <!-- Header -->
+    <h2 style="text-align:center;color:#2d2d2d;margin:10px 0;">HONEYBEE CAFE SDN BHD</h2>
+    <h3 style="text-align:center;color:#555;margin-bottom:30px;">Secret Overtime Form</h3>
+
+    <form id="overtimeForm" style="color:#333;">
+
+      <!-- Tarikh -->
+      <label><b>Date / Tarikh:</b></label><br>
+      <div class="date-container">
+        <select id="day" name="tarikh_day" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Hari / Day</option>
+          <option>01</option><option>02</option><option>03</option><option>04</option><option>05</option>
+          <option>06</option><option>07</option><option>08</option><option>09</option><option>10</option>
+          <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+          <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+          <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>
+          <option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+          <option>31</option>
+        </select>
+
+        <select id="month" name="tarikh_month" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Bulan / Month</option>
+          <option>01</option><option>02</option><option>03</option><option>04</option><option>05</option>
+          <option>06</option><option>07</option><option>08</option><option>09</option><option>10</option>
+          <option>11</option><option>12</option>
+        </select>
+
+        <select id="year" name="tarikh_year" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Tahun / Year</option>
+          <option>2025</option>
+          <option>2026</option>
+        </select>
+      </div>
+      <input type="hidden" name="tarikh">
+      <br>
+
+      <!-- Full Name -->
+      <label><b>Nama Penuh / Full Name:</b></label><br>
+      <input type="text" name="nama" placeholder="ISI NAMA PENUH ANDA..." required
+        oninput="this.value=this.value
+          .replace(/[^a-zA-Z\s]/g,'')
+          .replace(/\s+/g,' ')
+          .trimStart()
+          .toUpperCase();"
+        style="width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px;">
+      <br><br>
+
+      <!-- IC -->
+      <label><b>No. Kad Pengenalan / Identification Card (I.C.):</b></label><br>
+      <div class="ic-container">
+        <input type="text" name="ic_part1" maxlength="6" placeholder="990123" required
+          oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+          style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+        <span class="ic-separator">-</span>
+        <input type="text" name="ic_part2" maxlength="2" placeholder="12" required
+          oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+          style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+        <span class="ic-separator">-</span>
+        <input type="text" name="ic_part3" maxlength="4" placeholder="0123" required
+          oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+          style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+      </div>
+      <br><br>
+
+      <!-- Email -->
+      <label><b>Emel/Email:</b></label><br>
+      <input type="email" name="email" placeholder="Contoh: example@email.com" required
+        oninput="this.value=this.value.toLowerCase().replace(/\s+/g,'');"
+        style="width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px;">
+      <br><br>
+
+      <!-- Total OT -->
+      <label><b>Jumlah / Total Overtime:</b></label><br>
+      <div class="ot-container">
+        <select name="ot_hours" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Jam</option>
+          <option>0</option><option>1</option><option>2</option><option>3</option>
+          <option>4</option><option>5</option><option>6</option><option>7</option>
+          <option>8</option><option>9</option><option>10</option><option>11</option>
+          <option>12</option>
+        </select>
+        <select name="ot_minutes" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Minit</option>
+          <option>00</option><option>30</option>
+        </select>
+      </div>
+      <br><br>
+
+      <!-- Start Time -->
+      <label><b>Waktu Mula / Overtime Start:</b></label><br>
+      <div class="time-container">
+        <select name="start_hour" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Jam</option>
+          <option>01</option><option>02</option><option>03</option><option>04</option>
+          <option>05</option><option>06</option><option>07</option><option>08</option>
+          <option>09</option><option>10</option><option>11</option><option>12</option>
+        </select>
+        <span>:</span>
+        <select id="start_min" name="start_min" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Minit</option>
+        </select>
+        <select name="start_ampm" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>AM/PM</option>
+          <option>AM</option>
+          <option>PM</option>
+        </select>
+      </div>
+      <br><br>
+
+      <!-- Finish Time -->
+      <label><b>Waktu Habis / Overtime Finish:</b></label><br>
+      <div class="time-container">
+        <select name="finish_hour" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Jam</option>
+          <option>01</option><option>02</option><option>03</option><option>04</option>
+          <option>05</option><option>06</option><option>07</option><option>08</option>
+          <option>09</option><option>10</option><option>11</option><option>12</option>
+        </select>
+        <span>:</span>
+        <select id="finish_min" name="finish_min" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>Minit</option>
+        </select>
+        <select name="finish_ampm" required style="padding:10px;border:1px solid #ccc;border-radius:8px;">
+          <option value="" disabled selected>AM/PM</option>
+          <option>AM</option>
+          <option>PM</option>
+        </select>
+      </div>
+      <br><br>
+
+      <!-- Purpose -->
+      <label><b>Tujuan Overtime / Reason for Overtime:</b></label><br>
+      <textarea id="tujuanBox" name="tujuan" placeholder="Isikan Tujuan/Sebab anda Overtime..." required 
+        style="width:100%;padding:10px;margin-top:5px;
+               border:1px solid #ccc;border-radius:8px;
+               resize:none;overflow:hidden;" 
+        rows="4"></textarea>
+      <br><br>
+
+      <!-- Terms & Conditions -->
+      <div class="terms-box" style="border:1px solid #ccc;padding:15px;border-radius:8px;background:#fff;margin-bottom:15px;">
+        <h4 style="margin-top:0;color:#444;">Terma & Syarat</h4>
+        <p>Dengan menghantar borang ini saya bersetuju bahawa maklumat borang overtime tersebut adalah sahih dan benar. Pihak atasan berhak untuk MELULUSKAN atau MENOLAK borang tersebut sekiranya terdapat maklumat palsu atau atas sebab tertentu.</p>
+        <b>Staff</b>
+        <ul>
+          <li>Sebarang O.T. harus dimaklumkan dan mendapat kelulusan dari Supervisor dahulu</li>
+          <li>Sekiranya Tujuan/Sebab O.T. tidak munasabah Supervisor berhak untuk menolak O.T. tersebut (O.T. tidak akan dikira).</li>
+        </ul>
+        <b>Supervisor</b>
+        <ul>
+          <li>Sebarang O.T. harus dimaklumkan dan mendapat kelulusan dari Pihak Atasan dahulu.</li>
+          <li>Sekiranya Tujuan/Sebab O.T. tidak munasabah Pihak Atasan berhak untuk menolak O.T. tersebut (O.T. tidak akan dikira).</li>
+        </ul>
+      </div>
+
+      <!-- Agreement -->
+      <label style="display:block;margin-bottom:15px;">
+        <input type="checkbox" name="agree" required style="min-height:20px;">
+        <b>SAYA SETUJU</b>
+      </label>
+
+      <!-- Submit -->
+      <div style="text-align:center;">
+        <button type="submit" style="padding:12px 25px;background:#e30102;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:16px;transition:0.3s;min-height:44px;">
+          Submit
+        </button>
+      </div>
+
+      <!-- Thank you message placeholder -->
+      <p id="thankYouMsg" style="color:green;font-weight:bold;margin-top:20px;display:none;text-align:center;"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  const correctPassword = "1070632"; // ✅ set your password here
+
+  function checkPassword() {
+    var passwordInput = document.getElementById("passwordInput");
+    var passwordError = document.getElementById("passwordError");
+    var formContainer = document.getElementById("formContainer");
+
+    if (passwordInput.value === correctPassword) {
+      document.getElementById("passwordGate").style.display = "none";
+      formContainer.style.display = "block";
+    } else {
+      passwordError.style.display = "block";
+      passwordInput.value = ""; // clear input
+      passwordInput.focus();    // refocus
+
+      // Hide error after 3 seconds
+      setTimeout(() => {
+        passwordError.style.display = "none";
+      }, 3000);
+    }
+  }
+
+  const scriptURL = "https://script.google.com/macros/s/AKfycby8Yh4hjdmx_PvNHfaZxqVarU9LTSCvr23igGpEhKFJO26ov20DWN0HSfbmcXvBCmc2yA/exec";
+  const form = document.getElementById("overtimeForm");
+  const msg = document.getElementById("thankYouMsg");
+
+  // Populate minutes dropdown
+  function populateMinutes(selectId) {
+    const select = document.getElementById(selectId);
+    for (let i = 0; i <= 59; i++) {
+      const option = document.createElement("option");
+      option.text = i < 10 ? "0" + i : i;
+      option.value = option.text;
+      select.add(option);
+    }
+  }
+  populateMinutes("start_min");
+  populateMinutes("finish_min");
+
+  // Auto-expand textarea for Purpose
+  const tujuanBox = document.getElementById("tujuanBox");
+  tujuanBox.addEventListener("input", function () {
+    this.style.height = "auto";   
+    this.style.height = (this.scrollHeight) + "px"; 
+  });
+
+  // Helper: show status message
+  function showMessage(text, bgColor, textColor) {
+    msg.textContent = text;
+    msg.style.backgroundColor = bgColor;
+    msg.style.color = textColor;
+    msg.style.padding = "12px";
+    msg.style.borderRadius = "6px";
+    msg.style.display = "block";
+    msg.style.textAlign = "center";
+    msg.scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Handle form submit
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Combine date
+    const day = form.tarikh_day.value;
+    const month = form.tarikh_month.value;
+    const year = form.tarikh_year.value;
+    if (!day || !month || !year) {
+      alert("Please select a complete date (DD/MM/YYYY)");
+      return;
+    }
+    form.querySelector("input[name=tarikh]").value = `${day}/${month}/${year}`;
+
+    // Show submitting message
+    showMessage("🔁 Submitting...", "#cce7ff", "#004080");
+
+    // Submit
+    fetch(scriptURL, {
+      method: "POST",
+      body: new URLSearchParams(new FormData(form))
+    })
+    .then((response) => {
+      if (response.ok) {
+        form.reset();
+        showMessage("✅ Thank you! Your form has been submitted.", "#d4f7d4", "#006600");
+        setTimeout(() => {
+          msg.style.display = "none";
+        }, 5000);
+      } else {
+        showMessage("❌ Failed to submit.", "#ffd6d6", "#800000");
+      }
+    })
+    .catch((error) => {
+      showMessage("❌ Connection error: " + error.message, "#ffd6d6", "#800000");
+    });
+  });
+
+  // Mobile-specific enhancements
+  window.addEventListener('resize', function() {
+    // Handle orientation changes
+  });
+
+  // Auto-advance IC fields
+  document.querySelector('input[name="ic_part1"]').addEventListener('input', function(e) {
+    if (this.value.length === 6) {
+      document.querySelector('input[name="ic_part2"]').focus();
+    }
+  });
+
+  document.querySelector('input[name="ic_part2"]').addEventListener('input', function(e) {
+    if (this.value.length === 2) {
+      document.querySelector('input[name="ic_part3"]').focus();
+    }
+  });
+
+  // Prevent zoom on input focus in iOS
+  document.addEventListener('DOMContentLoaded', function() {
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+      document.addEventListener('focus', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+          document.body.style.fontSize = '16px';
+        }
+      }, true);
+      
+      document.addEventListener('blur', function(e) {
+        document.body.style.fontSize = '';
+      }, true);
+    }
+  });
+</script>
+
+</body>
+</html>
