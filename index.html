@@ -357,7 +357,6 @@
       <input type="text" name="nama" placeholder="ISI NAMA PENUH ANDA..." required
         oninput="this.value=this.value
           .replace(/[^a-zA-Z\s]/g,'')
-          .replace(/\s+/g,' ')
           .trimStart()
           .toUpperCase();"
         style="width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px;">
@@ -592,19 +591,6 @@
     // Handle orientation changes
   });
 
-  // Auto-advance IC fields
-  document.querySelector('input[name="ic_part1"]').addEventListener('input', function(e) {
-    if (this.value.length === 6) {
-      document.querySelector('input[name="ic_part2"]').focus();
-    }
-  });
-
-  document.querySelector('input[name="ic_part2"]').addEventListener('input', function(e) {
-    if (this.value.length === 2) {
-      document.querySelector('input[name="ic_part3"]').focus();
-    }
-  });
-
   // Prevent zoom on input focus in iOS
   document.addEventListener('DOMContentLoaded', function() {
     if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
@@ -624,4 +610,5 @@
 </body>
 
 </html>
+
 
